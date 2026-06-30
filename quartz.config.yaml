@@ -1,10 +1,11 @@
+# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
     pageTitle: Software Foundry
     pageTitleSuffix: ""
     enableSPA: true
     enablePopovers: true
     analytics:
-        provider: plausible
+        provider: null
     locale: en-US
     baseUrl: dmustache.github.io/Software-Foundry
     ignorePatterns:
@@ -199,6 +200,10 @@ plugins:
           position: beforeBody
           priority: 15
           display: all
+    - source: github:quartz-community/tui
+      enabled: true
+      options: {}
+      order: 50
 layout:
     groups:
         toolbar:
