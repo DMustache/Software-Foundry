@@ -1,0 +1,17 @@
+{
+    "name": "software-foundry",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Personal knowledge base for growing as a Software Engineer.",
+    "scripts": {
+        "prepare": "husky",
+        "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
+        "changelog": "git-cliff -o CHANGELOG.md",
+        "changelog:unreleased": "git-cliff --unreleased -o CHANGELOG.md"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^21.1.0",
+        "@commitlint/config-conventional": "^21.1.0",
+        "husky": "^9.1.7"
+    }
+}
