@@ -1,6 +1,5 @@
-# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-    pageTitle: Quartz 5
+    pageTitle: Software Foundry
     pageTitleSuffix: ""
     enableSPA: true
     enablePopovers: true
@@ -96,41 +95,17 @@ plugins:
       options:
           renderEngine: katex
       order: 80
-    - source: github:quartz-community/citations
-      enabled: false
-      order: 85
     - source: github:quartz-community/hard-line-breaks
       enabled: true
       order: 90
-    - source: github:quartz-community/ox-hugo
-      enabled: false
-      order: 91
-    - source: github:quartz-community/roam
-      enabled: false
-      order: 92
     - source: github:quartz-community/fonts
       enabled: true
     - source: github:quartz-community/remove-draft
       enabled: true
-    - source: github:quartz-community/explicit-publish
-      enabled: false
     - source: github:quartz-community/unlisted-pages
       enabled: true
       options: {}
       order: 45
-    - source: github:quartz-community/encrypted-pages
-      enabled: true
-      options:
-          iterations: 600000
-          passwordField: password
-          unlistWhenEncrypted: false
-          outputPath: static/encryptedContentIndex.json
-    - source: github:quartz-community/stacked-pages
-      enabled: false
-      layout:
-          position: afterBody
-          priority: 50
-          display: all
     - source: github:quartz-community/alias-redirects
       enabled: true
     - source: github:quartz-community/content-index
@@ -141,10 +116,6 @@ plugins:
     - source: github:quartz-community/favicon
       enabled: true
     - source: github:quartz-community/og-image
-      enabled: true
-    - source: github:quartz-community/cname
-      enabled: true
-    - source: github:quartz-community/canvas-page
       enabled: true
     - source: github:quartz-community/content-page
       enabled: true
@@ -180,16 +151,6 @@ plugins:
       layout:
           position: beforeBody
           priority: 10
-    - source: github:quartz-community/content-meta
-      enabled: true
-      layout:
-          position: beforeBody
-          priority: 20
-    - source: github:quartz-community/tag-list
-      enabled: false
-      layout:
-          position: beforeBody
-          priority: 30
     - source: github:quartz-community/page-title
       enabled: true
       layout:
@@ -201,34 +162,18 @@ plugins:
           position: left
           priority: 30
           group: toolbar
-    - source: github:quartz-community/reader-mode
-      enabled: true
-      layout:
-          position: left
-          priority: 35
-          group: toolbar
     - source: github:quartz-community/breadcrumbs
       enabled: true
       layout:
           position: beforeBody
           priority: 5
           condition: not-index
-    - source: github:quartz-community/comments
-      enabled: false
-      options:
-          provider: giscus
-          options: {}
-      layout:
-          position: afterBody
-          priority: 10
     - source: github:quartz-community/footer
       enabled: true
       options:
           links:
               GitHub: https://github.com/jackyzha0/quartz
               Discord Community: https://discord.gg/cRFFHYye7t
-    - source: github:quartz-community/recent-notes
-      enabled: false
     - source: github:quartz-community/spacer
       enabled: true
       options: {}
@@ -237,10 +182,6 @@ plugins:
           position: left
           priority: 25
           display: mobile-only
-    - source: github:quartz-community/bases-page
-      enabled: true
-      options: {}
-      order: 50
     - source: github:quartz-community/note-properties
       enabled: true
       options:
@@ -258,20 +199,6 @@ plugins:
           position: beforeBody
           priority: 15
           display: all
-    - source:
-          name: quartz-themes
-          repo: github:saberzero1/quartz-themes
-          subdir: plugin
-      enabled: true
-      options:
-          theme: default
-    - source: github:quartz-community/obsidian-plugin-excalidraw
-      enabled: true
-      options:
-          enableInteraction: true
-          darkMode: auto
-          exportPadding: 20
-      order: 50
 layout:
     groups:
         toolbar:
