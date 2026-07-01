@@ -1,3 +1,5 @@
+const { COMMIT_SCOPES } = require("./config/taxonomy.cjs");
+
 module.exports = {
     extends: ["@commitlint/config-conventional"],
     rules: {
@@ -22,25 +24,10 @@ module.exports = {
         "scope-enum": [
             1,
             "always",
-            [
-                "repo",
-                "quartz",
-                "content",
-                "agents",
-                "scripts",
-                "templates",
-                "rust",
-                "python",
-                "backend",
-                "architecture",
-                "engineering",
-                "factorio",
-                "sources",
-                "projects",
-                "ci",
-                "deps",
-                "release",
-            ],
+            {
+                scopes: COMMIT_SCOPES,
+                delimiters: ["|"],
+            },
         ],
 
         "scope-case": [2, "always", "kebab-case"],

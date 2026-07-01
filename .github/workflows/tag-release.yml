@@ -1,0 +1,95 @@
+name: Release
+
+on:
+    pull_request:
+        types:
+            - closed
+        branches:
+            - main
+
+permissions:
+    contents: write
+    pull-requests: read
+
+concurrency:
+    group: release-main
+    cancel-in-progress: false
+
+jobs:
+    release:
+        name: Prepare changelog and tag release
+        runs-on: ubuntu-latest
+        if: >-
+            ${{
+                github.event.pull_request.merged == true &&
+                startsWith(github.event.pull_request.head.ref, 'v')
+            }}
+
+        steps:
+            - name: Extract version
+              id: version
+              run: |
+                  BRANCH="${{ github.event.pull_request.head.ref }}"
+
+                  if [[ "$BRANCH" =~ ^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?)$ ]]; then
+                    VERSION="${BASH_REMATCH[1]}"
+                    echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+                    echo "Detected version: $VERSION"
+                  else
+                    echo "Branch name must match vX.Y.Z or vX.Y.Z-prerelease"
+                    exit 1
+                  fi
+
+            - name: Checkout main
+              uses: actions/checkout@v4
+              with:
+                  ref: main
+                  fetch-depth: 0
+                  token: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Install git-cliff
+              uses: taiki-e/install-action@git-cliff
+
+            - name: Check tag does not exist
+              run: |
+                  VERSION="${{ steps.version.outputs.version }}"
+
+                  git fetch --tags --force
+
+                  if git rev-parse "$VERSION" >/dev/null 2>&1; then
+                    echo "Tag $VERSION already exists"
+                    exit 1
+                  fi
+
+            - name: Generate release changelog
+              run: git-cliff --tag "${{ steps.version.outputs.version }}" -o CHANGELOG.md
+
+            - name: Commit changelog if changed
+              run: |
+                  git add CHANGELOG.md
+
+                  if git diff --cached --quiet; then
+                    echo "CHANGELOG.md is already up to date"
+                  else
+                    git config user.name "github-actions[bot]"
+                    git config user.email "github-actions[bot]@users.noreply.github.com"
+
+                    git commit -m "chore(release): prepare ${{ steps.version.outputs.version }}"
+                    git push origin main
+                  fi
+
+            - name: Refresh main after changelog commit
+              run: |
+                  git fetch origin main
+                  git checkout main
+                  git reset --hard origin/main
+
+            - name: Create and push annotated tag
+              run: |
+                  VERSION="${{ steps.version.outputs.version }}"
+
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+                  git tag -a "$VERSION" -m "Release $VERSION" HEAD
+                  git push origin "$VERSION"

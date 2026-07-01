@@ -58,8 +58,8 @@ jobs:
 
             - name: Copy agent files
               run: |
-                  if [ -f agent/llms.txt ]; then
-                    cp agent/llms.txt public/llms.txt
+                  if [ -f llms.txt ]; then
+                    cp llms.txt public/llms.txt
                   fi
 
             - name: Upload artifact

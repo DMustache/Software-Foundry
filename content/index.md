@@ -1,11 +1,10 @@
 ---
+id: index
 title: Software Foundry
+description: "Index page"
+tags:
+  - meta
+draft: true
 ---
 
 # Software Foundry
-
-Личная база знаний для роста как Software Engineer.
-
-## Разделы
-
-- [[ru/index|Русская версия]]
